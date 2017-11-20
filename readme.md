@@ -13,6 +13,8 @@ We'll be using an existing application that includes two models, several routes,
 * Fork and clone this repository
 * Run `npm install` to install dependencies
   * Use `nodemon` to start your application
+  * Use `npm run lint:js` to lint your JS
+  * Use `npm run lint:css` to lint your CSS
 * Setup your database (this app already has two existing models)
   * Run `createdb blogpulse_development` to create the database
   * Run `sequelize db:migrate` to run migrations
@@ -86,11 +88,11 @@ Now that the model has been created, you'll want to add the ability to create an
 
 * Add the ability to view comments on `GET /posts/:id`.
   * See the example above on how to include the comments, then use EJS to render each comment's information on the page. Make sure you have a comment in the database you can use to verify this functionality.
-* On the same page (`GET /posts/:id`), create a form to submit a new comment. Note that we don't *necessarily* need to render a form on a separate page - most sites have a comment form on the same page.
+* On the same page (`GET /posts/:id`), create a form to submit a new comment. Note that we don't *necessarily* need to render a form on a separate page.
   * Include the necessary attributes, `name` and `content`. Feel free to look at the forms for authors and posts as examples.
-  * Create a new route to receive this form data. This will be the action for your form. You could either make a separate comments controller at `POST /comments`, (especially good if you plan on having more comments-related routes in the future) or you could define the route in the post controller since comments are related to posts `POST /posts/:id/comments`. This implementation detail is up to you. Note how we're passing the post id in each case - in the form body in the first example vs a param (part of the URL) in the second one.
-    * Test the route by using your form 
-    * Once you've verified the route is working, redirect back to the post that was commented on for a completely smooth user experience.
+  * Create a new route to receive this form data. This will be the action for your form. A good route to define could be `POST /posts/:id/comments`. Note how we're passing the post id.
+    * Test the route by sending the form body
+    * Once you've verified the route is working, save the form body using Sequelize. Redirect back to the post that was commented on.
 * Verify functionality by creating more authors, posts, and comments. Pay attention to the user experience, and make sure the user can navigate between posts, authors, and comments.
 
 #### Part 3: Styling
