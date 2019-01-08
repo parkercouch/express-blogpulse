@@ -8,4 +8,26 @@
 
 <hr />
 
+<h4>Comments</h4>
+<% if (post.comments) { %>
+  <% post.comments.forEach(comment => { %>
+    <div>
+      <h5><%= comment.name %> </h5>
+      <p><%= comment.content %> </p>
+    </div>
+  <% }) %>
+<% } else { %>
+  <div>
+    <p>No Comments</p>
+  </div>
+<% } %> 
+
+<form action="/posts/<%= post.id  %>/comments" method="POST">
+  <label for="name">Your Name?</label>
+  <input type="text" name="name" id="name">
+  <label for="content">What do you think?</label>
+  <textarea type="text" name="content" id="content"></textarea>
+  <button type="submit">Share your thoughts</button>
+</form>
+
 <a href="/">&larr; Back Home</a>
