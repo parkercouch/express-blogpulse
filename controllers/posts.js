@@ -1,16 +1,41 @@
 var express = require('express');
 var db = require('../models');
 var router = express.Router();
+var async = require('async');
 
 // POST /posts - create a new post
 router.post('/', function(req, res) {
+  // Create array of tags, and filter empty tags
+  const tags = req.body.tags
+               .split(',')
+               .map(t => t.trim())
+               .filter(t => !!t)
+
+
   db.post.create({
     title: req.body.title,
     content: req.body.content,
     authorId: req.body.authorId
   })
   .then(function(post) {
-    res.redirect('/');
+    async.forEach(tags, function(t, done){
+      db.tag.findOrCreate({
+        where: { content: t },
+      })
+      .spread(function(newTag, wasCreated){
+        post.addTag(newTag)
+        .then(function(){
+          done();
+        })
+        .catch(done);
+      })
+      .catch(done);
+
+    }, function(){
+      res.redirect('/posts/' + post.id);
+    });
+
+
   })
   .catch(function(error) {
     res.status(400).render('main/404');
