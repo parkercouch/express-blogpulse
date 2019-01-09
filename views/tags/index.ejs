@@ -1,0 +1,7 @@
+<h1>All Tags</h1>
+
+<% tags.forEach(tag => { %>
+  <div>
+    <a href="/tags/<%= tag.id %>">#<%= tag.content %></a>
+  </div>
+<% }) %>
